@@ -1,8 +1,19 @@
 // Definition of the chainable function class __
 class __ {
-    constructor(query) {
-        this.query = query;
-    }
+  constructor(query) {
+    // Wait for page to load
+    window.addEventListener('load', function () {
+      // Get all elements with the given query selectors
+      const elements = document.querySelectorAll(query);
+      // Convert NodeList to Array
+      const elementsArr = Array.prototype.slice.call(elements);
+      this.elements = elementsArr;
+
+      // Demonstration with testHtml.html, log the first element if found, otherwise undefined
+      console.log(this.elements[0])
+    });
+    return this.elements;
+  }
 
   firstMethod() {
     console.log(`hello ${this.query}`);
@@ -30,3 +41,5 @@ __("test")
   .firstMethod()
   .secondMethod()
   .thirdMethod();
+
+console.log(__("#container"))
