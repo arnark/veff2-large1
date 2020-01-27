@@ -1,8 +1,8 @@
 /* Helpers */
 /* Get css selector stripped off first char (#, .), or no change (body, html etc.) */
 function getClassNameStripped(cssSelector) {
-  if(typeof selector === 'string') {
-    const firstChar = selector.charAt(0);
+  if(typeof cssSelector === 'string') {
+    const firstChar = cssSelector.charAt(0);
     if(firstChar === '#' || firstChar === '.') {
       return cssSelector.substr(1);
     } else {
@@ -13,12 +13,15 @@ function getClassNameStripped(cssSelector) {
 }
 
 /* Main functions */
-function __(selectors) {
+function __(cssSelectors) {
   // Grab all elements with given selector and convert to array
-  this.elements = Array.prototype.slice.call(document.querySelectorAll(selectors));
+  this.elements = Array.prototype.slice.call(document.querySelectorAll(cssSelectors));
 }
 
-__.prototype.parent = function (cssSelector) {
+/* Get the parent elements that match given cssSelector.
+   If no cssSelector is provided, all parent elements of __('example') are returned.
+*/
+__.prototype.parent = function (cssSelector = null) {
   // Get the stripped selector
   cssSelector = getClassNameStripped(cssSelector);
   let elementArr = [];
