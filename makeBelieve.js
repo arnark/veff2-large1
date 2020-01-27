@@ -1,25 +1,15 @@
 /* Helpers */
-function elementType(selector) {
+/* Get css selector stripped off first char (#, .), or no change (body, html etc.) */
+function getClassNameStripped(cssSelector) {
   if(typeof selector === 'string') {
     const firstChar = selector.charAt(0);
-    if(firstChar === '#') {
-      return 'ID';
-    } else if(firstChar === '.') {
-      return 'CLASS';
+    if(firstChar === '#' || firstChar === '.') {
+      return cssSelector.substr(1);
     } else {
-      return 'TAG';
+      return cssSelector;
     }
   }
   return undefined;
-}
-
-function getClassNameStripped(cssSelector) {
-  const elementType = this.elementType(cssSelector);
-  if(elementType === 'ID' || elementType === 'CLASS') {
-    return cssSelector.substr(1);
-  } else {
-    return cssSelector;
-  }
 }
 
 /* Main functions */
@@ -50,6 +40,30 @@ __.prototype.parent = function (cssSelector) {
     }
   this.elements = elementArr;
   return this;
+}
+
+__.prototype.css = function(cssElement, value) {
+  // WIP
+}
+
+// Er bara að prufa mig áfram og testa
+__.prototype.toogleClass = function(someClass) { 
+  var classList = this.className.split(' ');
+  for(cl in classList) {
+    if(cl == someClass) {
+      cl = "";
+      return;
+    }
+  }
+  this.className += someClass;
+}
+
+__.prototype.onSubmit = function() {
+  // WIP
+}
+
+__.prototype.onInput = function() {
+  // WIP
 }
 
 var _old = __;
