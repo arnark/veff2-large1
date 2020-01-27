@@ -64,6 +64,22 @@ class __ {
     return elementArr;
   }
 
+  
+
+  css(cssElement, value) {
+    // WIP
+  }
+
+  toogleClass(someClass) {
+    var classList = this.className.split(' ');
+    for(cl in classList) {
+      if(cl == someClass) {
+        cl = "";
+        return;
+      }
+    }
+    this.className += someClass;
+  }
 }
 
 // Required to get rid of the new keyword for initiating the __ class
