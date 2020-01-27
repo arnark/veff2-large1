@@ -38,6 +38,7 @@ class __ {
   }
 
   /* Main functions */
+  /* Get css selector stripped of first char if applicable */
   parent(cssSelector = undefined) {
     // Get the stripped selector
     cssSelector = this.getClassNameStripped(cssSelector);
@@ -64,31 +65,6 @@ class __ {
     return elementArr;
   }
 
-  
-
-  css(cssElement, value) {
-    // WIP
-  }
-
-  // Er bara að prufa mig áfram og testa
-  toogleClass(someClass) { 
-    var classList = this.className.split(' ');
-    for(cl in classList) {
-      if(cl == someClass) {
-        cl = "";
-        return;
-      }
-    }
-    this.className += someClass;
-  }
-
-  onSubmit() {
-    // WIP
-  }
-
-  onInput() {
-    // WIP
-  }
 }
 
 // Required to get rid of the new keyword for initiating the __ class
