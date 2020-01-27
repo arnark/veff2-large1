@@ -70,7 +70,8 @@ class __ {
     // WIP
   }
 
-  toogleClass(someClass) {
+  // Er bara að prufa mig áfram og testa
+  toogleClass(someClass) { 
     var classList = this.className.split(' ');
     for(cl in classList) {
       if(cl == someClass) {
@@ -79,6 +80,14 @@ class __ {
       }
     }
     this.className += someClass;
+  }
+
+  onSubmit() {
+    // WIP
+  }
+
+  onInput() {
+    // WIP
   }
 }
 
