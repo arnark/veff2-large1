@@ -112,21 +112,31 @@ __.prototype.delete = function() {
 }
 
 /* Functionality #12 */
-__.prototype.ajax = function(ajaxObject) {
-
+__.prototype.ajax = function(ajax) {
 	// WIP
 	// Check if required url is provided
-	if (Object.is(ajaxObject.url, undefined)) { return; }
+	if (Object.is(ajax.url, undefined)) { return; }
 
 	// Check if values are given, if not set default
-  	Object.is(ajaxObject.method, undefined) ? 'GET' : ajaxObject.method;
-  	Object.is(ajaxObject.timeout, undefined) ? 0 : ajaxObject.timeout;
-  	Object.is(ajaxObject.data, undefined) ? {} : ajaxObject.data;
-  	Object.is(ajaxObject.headers, undefined) ? [] : ajaxObject.headers;
-  	Object.is(ajaxObject.success, undefined) ? null : ajaxObject.success;
-  	Object.is(ajaxObject.fail, undefined) ? null : ajaxObject.fail;
-  	Object.is(ajaxObject.beforeSend, undefined) ? null : ajaxObject.beforeSend;
+  	Object.is(ajax.method, undefined) ? 'GET' : ajax.method;
+  	Object.is(ajax.timeout, undefined) ? 0 : ajax.timeout;
+  	Object.is(ajax.data, undefined) ? {} : ajax.data;
+  	Object.is(ajax.headers, undefined) ? [] : ajax.headers;
+  	Object.is(ajax.success, undefined) ? null : ajax.success;
+  	Object.is(ajax.fail, undefined) ? null : ajax.fail;
+  	Object.is(ajax.beforeSend, undefined) ? null : ajax.beforeSend;
 
+  	var xmlHttp = new XMLHttpRequest();
+  	ajax.beforeSend(xmlHttp);
+    xmlHttp.onreadystatechange = function() {
+        if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            ajax.success(xmlHttp.response);
+        } else if(xmlHttp.readyState == 4) {
+        	ajax.fail(xmlHttp.status);
+        }
+    }
+    xmlHttp.open(ajax.method, ajax.url); 
+    xmlHttp.send(null);
 }
 
 /* Functionality #13 */
@@ -227,7 +237,7 @@ window.onload = function(){
 	   ### Suggestions?
   	*/
   	__().ajax({
-  		url: 'https://serene-island-81305.herokuapp.com/api/200',
+  		url: 'https://serene-island-81305.herokuapp.com/api/204',
   		method: 'GET',
   		timeout: 0,
   		data: {},
@@ -245,9 +255,9 @@ window.onload = function(){
   		}
 		});
 		
-		// Example of css insertion using .css functon.
-		__('#container-title').css('font-size','50');
+	// Example of css insertion using .css functon.
+	__('#container-title').css('font-size','50');
 
-		// Example of toggleClass function
-		__('p').toogleClass('newClass');
+	// Example of toggleClass function
+	__('p').toogleClass('newClass');
 }
