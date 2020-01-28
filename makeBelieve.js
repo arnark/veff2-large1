@@ -49,6 +49,13 @@ function findFamilyMembers(memberType, cssSelector, elements) {
     return elementArr;
 }
 
+// Check if object is a DOM node
+function isNode(o){
+  return (
+    typeof Node === "object" ? o instanceof Node : 
+    o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName==="string"
+  );
+}
 
 /* Main functions */
 
@@ -93,17 +100,33 @@ __.prototype.onClick = function(callbackFunction) {
 __.prototype.insertText = function(text) {
 	Array.from(this.elements).forEach(function (element) {
 		element.textContent = text;
-    }); 
+    });
 }
 
 /* Functionality #9 */
-__.prototype.append = function(element) {
-  // WIP
+// WIP WIP WIP, appendChild not creating new 'element' ex. Should be <p>asf</p> but is "asf"
+__.prototype.append = function(givenElement) {
+	let isDomObject = isNode(givenElement);
+	Array.from(this.elements).forEach(function (element) {
+		if(isDomObject) {
+			element.appendChild(givenElement);
+		} else {
+			element.innerHTML += givenElement;
+		}
+    });
 }
 
 /* Functionality #10 */
-__.prototype.prepend = function(element) {
-  // WIP
+// WIP WIP WIP, appendChild not creating new 'element' ex. Should be <p>asf</p> but is "asf"
+__.prototype.prepend = function(givenElement) {
+	let isDomObject = isNode(givenElement);
+	Array.from(this.elements).forEach(function (element) {
+		if(isDomObject) {
+			element.prepend(givenElement);
+		} else {
+			element.innerHTML = givenElement + element.innerHTML;
+		}
+    });
 }
 
 /* Functionality #11 */
@@ -260,4 +283,24 @@ window.onload = function(){
 
 	// Example of toggleClass function
 	__('p').toogleClass('newClass');
+
+	// Example of append function
+	// Still some bugs with DOM object insert
+	__('.the-appender').append('<p>lolololo</p>');
+	__('.the-appender').append(
+		document.createElement('p')
+			.appendChild(
+				document.createTextNode('mmmkayyy i am a dom object appended')
+			)
+		);
+
+	// Example of prepend function
+	// Still some bugs with DOM object insert
+	__('.the-prepender').prepend('<p>lolololo</p>');
+	__('.the-prepender').prepend(
+		document.createElement('p')
+			.appendChild(
+				document.createTextNode('mmmkayyy i am a dom object prepended')
+			)
+		);
 }
