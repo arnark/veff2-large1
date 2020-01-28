@@ -12,6 +12,43 @@ function getClassNameStripped(cssSelector) {
   return undefined;
 }
 
+/* Returns found elements with given family memberType and cssSelector */
+function findFamilyMembers(memberType, cssSelector, elements) {
+	// Get the stripped selector ('#example' -> 'example')
+  	cssSelector = getClassNameStripped(cssSelector);
+
+  	let elementArr = [];
+  	// If selector is not provided
+  	if(cssSelector == null) {
+  		Array.from(elements).forEach(function (element) {
+  			if(memberType === 'parent') { 
+  				elementArr.push(element.parentNode);
+  			} else if(memberType === 'grandParent') {
+  				elementArr.push(element.parentNode.parentNode);
+  			}
+    	});
+    } else {
+      	// Iterate through the elements, checking if the given selector is the parent / grandparent
+      	Array.from(elements).forEach(function (element) {
+      	  	// Hacky way to compare selector with id, class and tags. ###suggestions?
+      	  	if(memberType === 'parent') { 
+      	  		if(element.parentNode.className === cssSelector 
+      	  		  || element.parentNode.id === cssSelector
+      	  		  || element.parentNode.localName === cssSelector) {
+      	  		  elementArr.push(element.parentNode);
+      	  		}
+      	  	} else if(memberType === 'grandParent') {
+      	  		if(element.parentNode.parentNode.className === cssSelector 
+      	  		  || element.parentNode.parentNode.id === cssSelector
+      	  		  || element.parentNode.parentNode.localName === cssSelector) {
+      	  		  elementArr.push(element.parentNode.parentNode);
+      	  		}
+      	  	}
+      	});
+    }
+    return elementArr;
+}
+
 
 /* Main functions */
 
@@ -21,41 +58,16 @@ function __(cssSelectors) {
   this.elements = Array.prototype.slice.call(document.querySelectorAll(cssSelectors));
 }
 
-/* Functionality #1 */
-let _old = __;
-__ = function(...args) { return new _old(...args) };
-
 /* Functionality #4 */
-/* Get the parent elements that match given cssSelector.
-   If no cssSelector is provided, all parent elements of
-   all elements that match __('example') are returned. */
 __.prototype.parent = function (cssSelector = null) {
-  // Get the stripped selector
-  cssSelector = getClassNameStripped(cssSelector);
-  let elementArr = [];
-    // If selector is not provided
-    if(cssSelector == null) {
-      Array.from(this.elements).forEach(function (element) {
-          elementArr.push(element.parentNode);
-      });
-    } else {
-      // Iterate through the elements, checking if the given selector is the parent
-      Array.from(this.elements).forEach(function (element) {
-        // Hacky way to compare selector with id, class and tags. ###suggestions?
-        if(element.parentNode.className === cssSelector 
-          || element.parentNode.id === cssSelector
-          || element.parentNode.localName === cssSelector) {
-          elementArr.push(element.parentNode);
-        }
-      });
-    }
-  this.elements = elementArr;
-  return this;
+  	this.elements = findFamilyMembers('parent', cssSelector, this.elements);
+  	return this;
 }
 
 /* Functionality #5 */
 __.prototype.grandParent = function(cssSelector = null) {
-  // WIP
+  	this.elements = findFamilyMembers('grandParent', cssSelector, this.elements);
+  	return this;
 }
 
 /* Functionality #6 */
@@ -121,15 +133,25 @@ __.prototype.onInput = function() {
   // WIP
 }
 
+/* Functionality #1 */
+let _old = __;
+__ = function(...args) { return new _old(...args) };
+
 
 // Wait for DOM to load
 window.onload = function(){
   // Example of general query selector
   console.log(__("#container"));
   
-  // Example of chainable methods and the parent function
+  // Example of the parent function
   console.log(__("p").parent(".selected"));
   console.log(__("p").parent("#container"));
   console.log(__("p").parent("form"));
   console.log(__("p").parent());
+
+  // Example of the parent function
+  console.log(__("#password").grandParent());
+  console.log(__("#password").grandParent("#grandfather"));
+  console.log(__("#password").grandParent("#unknownId"));
+
 }
