@@ -83,8 +83,10 @@ __.prototype.ancestor = function(cssSelector) {
 }
 
 /* Functionality #7 */
-__.prototype.onClick = function() {
-  // WIP
+__.prototype.onClick = function(callbackFunction) {
+	Array.from(this.elements).forEach(function (element) {
+		element.onclick = callbackFunction;
+    });
 }
 
 /* Functionality #8 */
@@ -165,4 +167,9 @@ window.onload = function(){
   	console.log(__("#password").ancestor(".ancestor"));
   	console.log(__("#password").ancestor(".root"));
   	console.log(__("#password").ancestor(".ancestor-sib"));
+
+  	// Example of the ancestor function
+  	__("#password").onClick(function (evt) {
+  		console.log(evt.target.value);
+  	});
 }
