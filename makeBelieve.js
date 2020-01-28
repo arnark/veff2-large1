@@ -144,7 +144,8 @@ __.prototype.toogleClass = function(someClass) {
 	// Er ekki viss hvort þetta má en þetta virkar.
 	Array.from(this.elements).forEach(function (element) {
 		element.classList.toggle(someClass);
-  });
+	});
+	
 	// ***********************************************************
   /* var ele = document.getElementsByTagName("h2"); // er bara til að testa
     // Wait for document to load.
