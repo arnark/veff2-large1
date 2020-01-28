@@ -1,78 +1,143 @@
-/* Definition of the chainable function class __ */
-class __ {
-
-  /* The constructor takes in a element query and returns found elements if they exist */
-  constructor(query) {
-    // Wait for page to load
-    window.addEventListener('load', function () {
-      // Get all elements with the given query selectors
-      const elements = document.querySelectorAll(query);
-      this.elements = elements;
-    });
-  }
-
-  /* Helpers */
-  /* Get the element type from selector string (id, class or tagname) */
-  elementType(selector) {
-    if(typeof selector === 'string') {
-      const firstChar = selector.charAt(0);
-      if(firstChar === '#') {
-        return 'ID';
-      } else if(firstChar === '.') {
-        return 'CLASS';
-      } else {
-        return 'TAG';
-      }
-    }
-    return undefined;
-  }
-
-  /* Get css selector stripped of first char if applicable */
-  getClassNameStripped(cssSelector) {
-    const elementType = this.elementType(cssSelector);
-    if(elementType === 'ID' || elementType === 'CLASS') {
+/* Helpers */
+/* Get css selector stripped off first char (#, .), or no change (body, html etc.) */
+function getClassNameStripped(cssSelector) {
+  if(typeof cssSelector === 'string') {
+    const firstChar = cssSelector.charAt(0);
+    if(firstChar === '#' || firstChar === '.') {
       return cssSelector.substr(1);
     } else {
       return cssSelector;
     }
   }
+  return undefined;
+}
 
-  /* Main functions */
-  parent(cssSelector = undefined) {
-    // Get the stripped selector
-    cssSelector = this.getClassNameStripped(cssSelector);
-    let elementArr = [];
-    // Wait for document to load
-    window.addEventListener('load', function () {
-      // If selector is not provided
-      if(cssSelector == null) {
-        Array.from(this.elements).forEach(function (element) {
-            elementArr.push(element.parentNode);
-        });
-      } else {
-        // Iterate through the elements, checking if the given selector is the parent
-        Array.from(this.elements).forEach(function (element) {
-          // Hacky way to compare selector with id, class and tags. ###suggestions?
-          if(element.parentNode.className === cssSelector 
-            || element.parentNode.id === cssSelector
-            || element.parentNode.localName === cssSelector) {
-            elementArr.push(element.parentNode);
-          }
-        });
-      }
-    });
+/* Returns found elements with given family memberType and cssSelector */
+function findFamilyMembers(memberType, cssSelector, elements) {
+	// Get the stripped selector ('#example' -> 'example')
+  	cssSelector = getClassNameStripped(cssSelector);
+
+  	let elementArr = [];
+  	// If selector is not provided
+  	if(cssSelector == null) {
+  		Array.from(elements).forEach(function (element) {
+  			if(memberType === 'parent') { 
+  				elementArr.push(element.parentNode);
+  			} else if(memberType === 'grandParent') {
+  				elementArr.push(element.parentNode.parentNode);
+  			}
+    	});
+    } else {
+      	// Iterate through the elements, checking if the given selector is the parent / grandparent
+      	Array.from(elements).forEach(function (element) {
+      	  	// Hacky way to compare selector with id, class and tags. ###suggestions?
+      	  	if(memberType === 'parent') { 
+      	  		if(element.parentNode.className === cssSelector 
+      	  		  || element.parentNode.id === cssSelector
+      	  		  || element.parentNode.localName === cssSelector) {
+      	  		  elementArr.push(element.parentNode);
+      	  		}
+      	  	} else if(memberType === 'grandParent') {
+      	  		if(element.parentNode.parentNode.className === cssSelector 
+      	  		  || element.parentNode.parentNode.id === cssSelector
+      	  		  || element.parentNode.parentNode.localName === cssSelector) {
+      	  		  elementArr.push(element.parentNode.parentNode);
+      	  		}
+      	  	}
+      	});
+    }
     return elementArr;
-  }
+}
 
-  
 
-  css(cssElement, value) {
-    // WIP
-  }
+/* Main functions */
 
-  // Er bara að prufa mig áfram og testa. Á endanum mun vera helper functions.
-  toogleClass(someClass) { 
-    var ele = document.getElementsByTagName("h2"); // er bara til að testa
+/* Functionality #2 */
+function __(cssSelectors) {
+  // Grab all elements with given selector and insert into array
+  this.elements = Array.prototype.slice.call(document.querySelectorAll(cssSelectors));
+}
+
+/* Functionality #4 */
+__.prototype.parent = function (cssSelector = null) {
+  	this.elements = findFamilyMembers('parent', cssSelector, this.elements);
+  	return this;
+}
+
+/* Functionality #5 */
+__.prototype.grandParent = function(cssSelector = null) {
+  	this.elements = findFamilyMembers('grandParent', cssSelector, this.elements);
+  	return this;
+}
+
+/* Functionality #6 */
+__.prototype.ancestor = function(cssSelector) {
+	let elementArr = [];
+	// Iterate through this.elements and find the closes ancestor
+	Array.from(this.elements).forEach(function (element) {
+		let closestAncestor = element.closest(cssSelector);
+		if(closestAncestor) { elementArr.push(closestAncestor); }
+    });
+  	this.elements = elementArr;
+  	return this;
+}
+    
+/* Functionality #7 */
+__.prototype.onClick = function(callbackFunction) {
+	Array.from(this.elements).forEach(function (element) {
+		element.onclick = callbackFunction;
+    });
+}
+
+/* Functionality #8 */
+__.prototype.insertText = function(text) {
+	Array.from(this.elements).forEach(function (element) {
+		element.textContent = text;
+    }); 
+}
+
+/* Functionality #9 */
+__.prototype.append = function(element) {
+  // WIP
+}
+
+/* Functionality #10 */
+__.prototype.prepend = function(element) {
+  // WIP
+}
+
+/* Functionality #11 */
+__.prototype.delete = function() {
+  // WIP
+}
+
+/* Functionality #12 */
+__.prototype.ajax = function(ajaxObject) {
+
+	// WIP
+	// Check if required url is provided
+	if (Object.is(ajaxObject.url, undefined)) { return; }
+
+	// Check if values are given, if not set default
+  	Object.is(ajaxObject.method, undefined) ? 'GET' : ajaxObject.method;
+  	Object.is(ajaxObject.timeout, undefined) ? 0 : ajaxObject.timeout;
+  	Object.is(ajaxObject.data, undefined) ? {} : ajaxObject.data;
+  	Object.is(ajaxObject.headers, undefined) ? [] : ajaxObject.headers;
+  	Object.is(ajaxObject.success, undefined) ? null : ajaxObject.success;
+  	Object.is(ajaxObject.fail, undefined) ? null : ajaxObject.fail;
+  	Object.is(ajaxObject.beforeSend, undefined) ? null : ajaxObject.beforeSend;
+
+}
+
+/* Functionality #13 */
+__.prototype.css = function(cssElement, value) {
+  // WIP
+}
+
+/* Functionality #14 */
+// Er bara að prufa mig áfram og testa
+__.prototype.toogleClass = function(someClass) { 
+  var ele = document.getElementsByTagName("h2"); // er bara til að testa
     // Wait for document to load.
     window.addEventListener('load', function () {
       // Loop elements of type selected.
@@ -96,30 +161,75 @@ class __ {
         }
       }
     });
-  }
-
-  onSubmit() {
-    // WIP
-  }
-
-  onInput() {
-    // WIP
-  }
 }
 
-// Required to get rid of the new keyword for initiating the __ class
-var _old = __;
+/* Functionality #15 */
+__.prototype.onSubmit = function() {
+  // WIP
+}
+
+/* Functionality #16 */
+__.prototype.onInput = function() {
+  // WIP
+}
+
+/* Functionality #1 */
+let _old = __;
 __ = function(...args) { return new _old(...args) };
 
 
-// Example of general query selector
-/* Þetta semsagt virkar ekki, vegna þess að constructorar 'returna' ekki. Reyni að finna lausn. */
-console.log(__("#container h2"));
+// Wait for DOM to load
+window.onload = function(){
 
-// Example of chainable methods and the parent function
-console.log(__("p").parent(".selected"));
-console.log(__("p").parent("#container"));
-console.log(__("p").parent("form"));
-console.log(__("p").parent());
+  	// Example of general query selector
+  	console.log(__("#container"));
+  	
+  	// Example of the parent function
+  	console.log(__("p").parent(".selected"));
+  	console.log(__("p").parent("#container"));
+  	console.log(__("p").parent("form"));
+  	console.log(__("p").parent());
+	
+  	// Example of the grandParent function
+  	console.log(__("#password").grandParent());
+  	console.log(__("#password").grandParent("#grandfather"));
+  	console.log(__("#password").grandParent("#unknownId"));
+	
+  	// Example of the ancestor function
+  	console.log(__("#password").ancestor(".ancestor"));
+  	console.log(__("#password").ancestor(".root"));
+  	console.log(__("#password").ancestor(".ancestor-sib"));
 
-__("h2").toogleClass("newClass");
+  	// Example of the onclick function 
+  	__("#password").onClick(function (evt) {
+  		console.log(evt.target.value);
+  	});
+
+  	// Example of insertText function
+  	__("#hello").insertText("Some text");
+
+
+  	// AJAX example WIP WIP WIP
+  	/* Ekki viss hvernig maður getur losað sig við svigana (). 
+  	   Samkvæmt verkefnalýsingu á þetta að vera _.ajax({}); 
+	   ### Suggestions?
+  	*/
+  	__().ajax({
+  		url: 'https://serene-island-81305.herokuapp.com/api/200',
+  		method: 'GET',
+  		timeout: 0,
+  		data: {},
+  		headers: [
+  			{ 'Authorization': 'my-secret-key' }
+  		],
+  		success: function(resp) {
+  			console.log(resp);
+  		},
+  		fail: function(error) {
+  			console.log(error);
+  		},
+  		beforeSend: function(xhr) {
+  			console.log(xhr);
+  		}
+  	});
+}
