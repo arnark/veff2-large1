@@ -72,7 +72,14 @@ __.prototype.grandParent = function(cssSelector = null) {
 
 /* Functionality #6 */
 __.prototype.ancestor = function(cssSelector) {
-  // WIP
+	let elementArr = [];
+	// Iterate through this.elements and find the closes ancestor
+	Array.from(this.elements).forEach(function (element) {
+		let closestAncestor = element.closest(cssSelector);
+		if(closestAncestor) { elementArr.push(closestAncestor); }
+    });
+  	this.elements = elementArr;
+  	return this;
 }
 
 /* Functionality #7 */
@@ -140,18 +147,22 @@ __ = function(...args) { return new _old(...args) };
 
 // Wait for DOM to load
 window.onload = function(){
-  // Example of general query selector
-  console.log(__("#container"));
-  
-  // Example of the parent function
-  console.log(__("p").parent(".selected"));
-  console.log(__("p").parent("#container"));
-  console.log(__("p").parent("form"));
-  console.log(__("p").parent());
-
-  // Example of the parent function
-  console.log(__("#password").grandParent());
-  console.log(__("#password").grandParent("#grandfather"));
-  console.log(__("#password").grandParent("#unknownId"));
-
+  	// Example of general query selector
+  	console.log(__("#container"));
+  	
+  	// Example of the parent function
+  	console.log(__("p").parent(".selected"));
+  	console.log(__("p").parent("#container"));
+  	console.log(__("p").parent("form"));
+  	console.log(__("p").parent());
+	
+  	// Example of the grandParent function
+  	console.log(__("#password").grandParent());
+  	console.log(__("#password").grandParent("#grandfather"));
+  	console.log(__("#password").grandParent("#unknownId"));
+	
+  	// Example of the ancestor function
+  	console.log(__("#password").ancestor(".ancestor"));
+  	console.log(__("#password").ancestor(".root"));
+  	console.log(__("#password").ancestor(".ancestor-sib"));
 }
