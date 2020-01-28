@@ -91,7 +91,10 @@ __.prototype.onClick = function(callbackFunction) {
 
 /* Functionality #8 */
 __.prototype.insertText = function(text) {
-  // WIP
+	Array.from(this.elements).forEach(function (element) {
+		element.textContent = text;
+    });
+  
 }
 
 /* Functionality #9 */
@@ -168,8 +171,11 @@ window.onload = function(){
   	console.log(__("#password").ancestor(".root"));
   	console.log(__("#password").ancestor(".ancestor-sib"));
 
-  	// Example of the ancestor function
+  	// Example of the onclick function 
   	__("#password").onClick(function (evt) {
   		console.log(evt.target.value);
   	});
+
+  	// Example of insertText function
+  	__("#hello").insertText("Some text");
 }
