@@ -12,15 +12,23 @@ function getClassNameStripped(cssSelector) {
   return undefined;
 }
 
+
 /* Main functions */
+
+/* Functionality #2 */
 function __(cssSelectors) {
   // Grab all elements with given selector and convert to array
   this.elements = Array.prototype.slice.call(document.querySelectorAll(cssSelectors));
 }
 
+/* Functionality #1 */
+let _old = __;
+__ = function(...args) { return new _old(...args) };
+
+/* Functionality #4 */
 /* Get the parent elements that match given cssSelector.
-   If no cssSelector is provided, all parent elements of __('example') are returned.
-*/
+   If no cssSelector is provided, all parent elements of
+   all elements that match __('example') are returned. */
 __.prototype.parent = function (cssSelector = null) {
   // Get the stripped selector
   cssSelector = getClassNameStripped(cssSelector);
@@ -45,10 +53,52 @@ __.prototype.parent = function (cssSelector = null) {
   return this;
 }
 
+/* Functionality #5 */
+__.prototype.grandParent = function(cssSelector = null) {
+  // WIP
+}
+
+/* Functionality #6 */
+__.prototype.ancestor = function(cssSelector) {
+  // WIP
+}
+
+/* Functionality #7 */
+__.prototype.onClick = function() {
+  // WIP
+}
+
+/* Functionality #8 */
+__.prototype.insertText = function(text) {
+  // WIP
+}
+
+/* Functionality #9 */
+__.prototype.append = function(element) {
+  // WIP
+}
+
+/* Functionality #10 */
+__.prototype.prepend = function(element) {
+  // WIP
+}
+
+/* Functionality #11 */
+__.prototype.delete = function() {
+  // WIP
+}
+
+/* Functionality #12 */
+__.prototype.ajax = function(ajaxObject) {
+  // WIP
+}
+
+/* Functionality #13 */
 __.prototype.css = function(cssElement, value) {
   // WIP
 }
 
+/* Functionality #14 */
 // Er bara að prufa mig áfram og testa
 __.prototype.toogleClass = function(someClass) { 
   var classList = this.className.split(' ');
@@ -61,16 +111,16 @@ __.prototype.toogleClass = function(someClass) {
   this.className += someClass;
 }
 
+/* Functionality #15 */
 __.prototype.onSubmit = function() {
   // WIP
 }
 
+/* Functionality #16 */
 __.prototype.onInput = function() {
   // WIP
 }
 
-var _old = __;
-__ = function(...args) { return new _old(...args) };
 
 // Wait for DOM to load
 window.onload = function(){
