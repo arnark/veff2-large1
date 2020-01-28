@@ -172,38 +172,11 @@ __.prototype.css = function(cssElement, value) {
 }
 
 /* Functionality #14 */
-// Er bara að prufa mig áfram og testa
 __.prototype.toogleClass = function(someClass) { 
-	// Er ekki viss hvort þetta má en þetta virkar.
+	// classList.toggle is allowed.
 	Array.from(this.elements).forEach(function (element) {
 		element.classList.toggle(someClass);
 	});
-	
-	// ***********************************************************
-  /* var ele = document.getElementsByTagName("h2"); // er bara til að testa
-    // Wait for document to load.
-    window.addEventListener('load', function () {
-      // Loop elements of type selected.
-      for (var i = 0; i < ele.length; i++) {
-        // Split the class into a array.
-        var classArry = ele[i].className.split(' '); 
-        var found = false
-        // Loop all classes that the lements has.
-        for(var j = 0; j < classArry.length; j++) {
-          if (classArry[j] == someClass) {
-            found = true;
-          }
-        }
-        if (found == true) {
-          console.log("yes");
-          ele[i].className.replace('/\b'+ someClass + '\b/', "");// virkar ekki
-        }
-        else {
-          console.log("no");
-          ele[i].className += " " + someClass;
-        }
-      }
-    });*/
 }
 
 /* Functionality #15 */
