@@ -54,7 +54,7 @@ function findFamilyMembers(memberType, cssSelector, elements) {
 
 /* Functionality #2 */
 function __(cssSelectors) {
-  // Grab all elements with given selector and convert to array
+  // Grab all elements with given selector and insert into array
   this.elements = Array.prototype.slice.call(document.querySelectorAll(cssSelectors));
 }
 
@@ -93,8 +93,7 @@ __.prototype.onClick = function(callbackFunction) {
 __.prototype.insertText = function(text) {
 	Array.from(this.elements).forEach(function (element) {
 		element.textContent = text;
-    });
-  
+    }); 
 }
 
 /* Functionality #9 */
@@ -114,7 +113,20 @@ __.prototype.delete = function() {
 
 /* Functionality #12 */
 __.prototype.ajax = function(ajaxObject) {
-  // WIP
+
+	// WIP
+	// Check if required url is provided
+	if (Object.is(ajaxObject.url, undefined)) { return; }
+
+	// Check if values are given, if not set default
+  	Object.is(ajaxObject.method, undefined) ? 'GET' : ajaxObject.method;
+  	Object.is(ajaxObject.timeout, undefined) ? 0 : ajaxObject.timeout;
+  	Object.is(ajaxObject.data, undefined) ? {} : ajaxObject.data;
+  	Object.is(ajaxObject.headers, undefined) ? [] : ajaxObject.headers;
+  	Object.is(ajaxObject.success, undefined) ? null : ajaxObject.success;
+  	Object.is(ajaxObject.fail, undefined) ? null : ajaxObject.fail;
+  	Object.is(ajaxObject.beforeSend, undefined) ? null : ajaxObject.beforeSend;
+
 }
 
 /* Functionality #13 */
@@ -152,6 +164,7 @@ __ = function(...args) { return new _old(...args) };
 
 // Wait for DOM to load
 window.onload = function(){
+
   	// Example of general query selector
   	console.log(__("#container"));
   	
@@ -178,4 +191,29 @@ window.onload = function(){
 
   	// Example of insertText function
   	__("#hello").insertText("Some text");
+
+
+  	// AJAX example WIP WIP WIP
+  	/* Ekki viss hvernig maður getur losað sig við svigana (). 
+  	   Samkvæmt verkefnalýsingu á þetta að vera _.ajax({}); 
+	   ### Suggestions?
+  	*/
+  	__().ajax({
+  		url: 'https://serene-island-81305.herokuapp.com/api/200',
+  		method: 'GET',
+  		timeout: 0,
+  		data: {},
+  		headers: [
+  			{ 'Authorization': 'my-secret-key' }
+  		],
+  		success: function(resp) {
+  			console.log(resp);
+  		},
+  		fail: function(error) {
+  			console.log(error);
+  		},
+  		beforeSend: function(xhr) {
+  			console.log(xhr);
+  		}
+  	});
 }
