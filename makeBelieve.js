@@ -245,6 +245,9 @@ window.onload = function(){
   		}
 		});
 		
+		// Example of css insertion using .css functon.
 		__('#container-title').css('font-size','50');
+
+		// Example of toggleClass function
 		__('p').toogleClass('newClass');
 }
