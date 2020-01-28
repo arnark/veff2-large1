@@ -70,16 +70,32 @@ class __ {
     // WIP
   }
 
-  // Er bara að prufa mig áfram og testa
+  // Er bara að prufa mig áfram og testa. Á endanum mun vera helper functions.
   toogleClass(someClass) { 
-    var classList = this.className.split(' ');
-    for(cl in classList) {
-      if(cl == someClass) {
-        cl = "";
-        return;
+    var ele = document.getElementsByTagName("h2"); // er bara til að testa
+    // Wait for document to load.
+    window.addEventListener('load', function () {
+      // Loop elements of type selected.
+      for (var i = 0; i < ele.length; i++) {
+        // Split the class into a array.
+        var classArry = ele[i].className.split(' '); 
+        var found = false
+        // Loop all classes that the lements has.
+        for(var j = 0; j < classArry.length; j++) {
+          if (classArry[j] == someClass) {
+            found = true;
+          }
+        }
+        if (found == true) {
+          console.log("yes");
+          ele[i].className.replace('/\b'+ someClass + '\b/', "");// virkar ekki
+        }
+        else {
+          console.log("no");
+          ele[i].className += " " + someClass;
+        }
       }
-    }
-    this.className += someClass;
+    });
   }
 
   onSubmit() {
@@ -105,3 +121,5 @@ console.log(__("p").parent(".selected"));
 console.log(__("p").parent("#container"));
 console.log(__("p").parent("form"));
 console.log(__("p").parent());
+
+__("h2").toogleClass("newClass");
