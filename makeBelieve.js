@@ -131,7 +131,11 @@ __.prototype.ajax = function(ajaxObject) {
 
 /* Functionality #13 */
 __.prototype.css = function(cssElement, value) {
-  // WIP
+	// Iterate through this.elements.
+	Array.from(this.elements).forEach(function (element) {
+		// Addd to style cssElement with the new value. 
+		element.style[cssElement] = value;
+	});
 }
 
 /* Functionality #14 */
@@ -141,8 +145,8 @@ __.prototype.toogleClass = function(someClass) {
 	Array.from(this.elements).forEach(function (element) {
 		element.classList.toggle(someClass);
   });
-	// ********************************************
-  var ele = document.getElementsByTagName("h2"); // er bara til að testa
+	// ***********************************************************
+  /* var ele = document.getElementsByTagName("h2"); // er bara til að testa
     // Wait for document to load.
     window.addEventListener('load', function () {
       // Loop elements of type selected.
@@ -165,12 +169,14 @@ __.prototype.toogleClass = function(someClass) {
           ele[i].className += " " + someClass;
         }
       }
-    });
+    });*/
 }
 
 /* Functionality #15 */
-__.prototype.onSubmit = function() {
-  // WIP
+__.prototype.onSubmit = function(callbackFunction) {
+	Array.from(this.elements).forEach(function (element) {
+		element.onsubmit = callbackFunction;
+	});
 }
 
 /* Functionality #16 */
@@ -238,5 +244,6 @@ window.onload = function(){
   		}
 		});
 		
-		__('p').toogleClass('newClass')
+		__('#container-title').css('font-size','50');
+		__('p').toogleClass('newClass');
 }
