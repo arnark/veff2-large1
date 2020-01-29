@@ -107,8 +107,8 @@ __.prototype.insertText = function(text) {
 // WIP WIP WIP, appendChild not creating new 'element' ex. Should be <p>asf</p> but is "asf"
 __.prototype.append = function(givenElement) {
 	let isDomObject = isNode(givenElement);
+	console.log(givenElement);
 	Array.from(this.elements).forEach(function (element) {
-		console.log(element);
 		if(isDomObject) {
 			element.appendChild(givenElement);
 		} else {
@@ -132,7 +132,7 @@ __.prototype.prepend = function(givenElement) {
 
 /* Functionality #11 */
 __.prototype.delete = function() {
-	// if array length >0 delete element.
+	// if array length > 0 delete element.
 	if(this.elements.length) {
 		Array.from(this.elements).forEach(function (element) {
 			element.parentNode.removeChild(element);
