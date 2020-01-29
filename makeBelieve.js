@@ -276,4 +276,16 @@ window.onload = function(){
 				document.createTextNode('mmmkayyy i am a dom object prepended')
 			)
 		);
+	
+	__('#my-form-submit').onSubmit(function (evt) {
+		evt.preventDefault(); //prevent the defult submit of the form;
+		console.log("I'm doing somthing");
+		console.log(evt.target.usernames.value);
+		console.log(evt.target.passwords.value);
+	});
+
+	__('#usernames').onInput(function (evt) {
+		console.log(evt.target.value);
+	});
+
 }
