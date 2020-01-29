@@ -131,7 +131,15 @@ __.prototype.prepend = function(givenElement) {
 
 /* Functionality #11 */
 __.prototype.delete = function() {
-  // WIP
+	if(this.elements.length) {
+		Array.from(this.elements).forEach(function (element) {
+			element.parentNode.removeChild(element);
+		})
+	}
+	else {
+		console.log("I did nothing");
+		return 0;
+	}
 }
 
 /* Functionality #12 */
@@ -175,6 +183,7 @@ __.prototype.css = function(cssElement, value) {
 __.prototype.toogleClass = function(someClass) { 
 	// classList.toggle is allowed.
 	Array.from(this.elements).forEach(function (element) {
+		// using classList we toggle the given class.
 		element.classList.toggle(someClass);
 	});
 }
@@ -278,6 +287,8 @@ window.onload = function(){
 				document.createTextNode('mmmkayyy i am a dom object prepended')
 			)
 		);
+
+	__("#container h2").delete();
 	
 	// Example of onSubmit function
 	__('#my-form-submit').onSubmit(function (evt) {
