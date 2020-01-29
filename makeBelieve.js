@@ -105,13 +105,14 @@ __.prototype.insertText = function(text) {
 
 /* Functionality #9 */
 // I was pointed to this https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML for help.
-// givenElement is a text object. need to look into this.
+// givenElement is a [object Text]. need to look into this.
 // WIP WIP WIP, appendChild not creating new 'element' ex. Should be <p>asf</p> but is "asf"
 __.prototype.append = function(givenElement) {
 	let isDomObject = isNode(givenElement);
+	console.log(givenElement);
 	Array.from(this.elements).forEach(function (element) {
 		if(isDomObject) {
-			element.appendChild(givenElement);
+			element.append(givenElement);
 		} else {
 			element.innerHTML += givenElement;
 		}
@@ -239,7 +240,7 @@ window.onload = function(){
   	});
 
   	// Example of insertText function
-  	__("#hello").insertText("Some text");
+  	__("#hello").insertText("Some texting");
 
 
   	// AJAX example WIP WIP WIP
@@ -281,6 +282,14 @@ window.onload = function(){
 					document.createTextNode('mmmkayyy i am a dom object appended')
 				)
 			);
+			
+	var bera = document.createElement("p").appendChild(document.createTextNode("YES"));
+	__('.the-appender').append(bera);
+
+	var para = document.createElement("p");
+	var node = document.createTextNode("this is new");
+	para.appendChild(node);
+	__('.the-appender').append(para);
 
 	// Example of prepend function
 	// Still some bugs with DOM object insert
