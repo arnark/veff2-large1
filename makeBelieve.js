@@ -279,15 +279,17 @@ window.onload = function(){
 			)
 		);
 	
+	// Example of onSubmit function
 	__('#my-form-submit').onSubmit(function (evt) {
-		evt.preventDefault(); //prevent the defult submit of the form;
+		evt.preventDefault(); //prevent the defult submit of the form (dont know if we need this).
 		console.log("I'm doing somthing");
 		console.log(evt.target.usernames.value);
 		console.log(evt.target.passwords.value);
 	});
 
+	// Example of onInput function
 	__('#usernames').onInput(function (evt) {
-		console.log(evt.target.value);
+		console.log(evt.target.value); // Will log every time a input is made.
 	});
 
 }
