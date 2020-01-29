@@ -104,6 +104,7 @@ __.prototype.insertText = function(text) {
 }
 
 /* Functionality #9 */
+// I was pointed to this https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML for help.
 // WIP WIP WIP, appendChild not creating new 'element' ex. Should be <p>asf</p> but is "asf"
 __.prototype.append = function(givenElement) {
 	let isDomObject = isNode(givenElement);
@@ -302,8 +303,12 @@ window.onload = function(){
 	});
 
 	// Example of onInput function
-	__('#usernames').onInput(function (evt) {
+	__('#passwors').onInput(function (evt) {
 		console.log(evt.target.value); // Will log every time a input is made.
 	});
 
+	// Chainable
+	__('input').parent('form').onInput(function(evt) {
+		console.log("Somthing is happending");
+	});
 }
