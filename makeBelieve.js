@@ -108,6 +108,7 @@ __.prototype.insertText = function(text) {
 __.prototype.append = function(givenElement) {
 	let isDomObject = isNode(givenElement);
 	Array.from(this.elements).forEach(function (element) {
+		console.log(element);
 		if(isDomObject) {
 			element.appendChild(givenElement);
 		} else {
@@ -131,11 +132,13 @@ __.prototype.prepend = function(givenElement) {
 
 /* Functionality #11 */
 __.prototype.delete = function() {
+	// if array length >0 delete element.
 	if(this.elements.length) {
 		Array.from(this.elements).forEach(function (element) {
 			element.parentNode.removeChild(element);
 		})
 	}
+	// or do nothing.
 	else {
 		console.log("I did nothing");
 		return 0;
@@ -272,21 +275,21 @@ window.onload = function(){
 	// Still some bugs with DOM object insert
 	__('.the-appender').append('<p>lolololo</p>');
 	__('.the-appender').append(
-		document.createElement('p')
-			.appendChild(
-				document.createTextNode('mmmkayyy i am a dom object appended')
-			)
-		);
+			document.createElement('p')
+				.appendChild(
+					document.createTextNode('mmmkayyy i am a dom object appended')
+				)
+			);
 
 	// Example of prepend function
 	// Still some bugs with DOM object insert
 	__('.the-prepender').prepend('<p>lolololo</p>');
 	__('.the-prepender').prepend(
-		document.createElement('p')
-			.appendChild(
-				document.createTextNode('mmmkayyy i am a dom object prepended')
-			)
-		);
+			document.createElement('p')
+				.appendChild(
+					document.createTextNode('mmmkayyy i am a dom object prepended')
+				)
+			);
 
 	__("#container h2").delete();
 	
