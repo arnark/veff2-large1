@@ -276,7 +276,7 @@ window.onload = function(){
 	// Still some bugs with DOM object insert
 	__('.the-appender').append('<p>lolololo</p>');
 	__('.the-appender').append(
-			document.createElement('div')
+			document.createElement('p')
 				.appendChild(
 					document.createTextNode('mmmkayyy i am a dom object appended')
 				)
