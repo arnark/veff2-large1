@@ -187,8 +187,10 @@ __.prototype.onSubmit = function(callbackFunction) {
 }
 
 /* Functionality #16 */
-__.prototype.onInput = function() {
-  // WIP
+__.prototype.onInput = function(callbackFunction) {
+  Array.from(this.elements).forEach(function (element) {
+		element.oninput = callbackFunction;
+	});
 }
 
 /* Functionality #1 */
