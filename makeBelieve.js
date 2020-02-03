@@ -149,25 +149,27 @@ __.prototype.ajax = function(ajax) {
 	}
 
 	// Check if values are given, if not set default
-  	Object.is(ajax.method, undefined) ? 'GET' : ajax.method;
-  	Object.is(ajax.timeout, undefined) ? 0 : ajax.timeout;
-  	Object.is(ajax.data, undefined) ? {} : ajax.data;
-  	Object.is(ajax.headers, undefined) ? [] : ajax.headers;
-  	Object.is(ajax.success, undefined) ? null : ajax.success;
-  	Object.is(ajax.fail, undefined) ? null : ajax.fail;
-  	Object.is(ajax.beforeSend, undefined) ? null : ajax.beforeSend;
+	let nullFunc = function(){};
+  	ajax.method = ajax.method || 'GET';
+  	ajax.timeout = ajax.timeout || 0;
+  	ajax.data = ajax.data || {};
+  	ajax.headers = ajax.headers || [];
+  	ajax.success = ajax.success || nullFunc;
+  	ajax.fail = ajax.fail || nullFunc;
+  	ajax.beforeSend = ajax.beforeSend || nullFunc;
 
   	var xmlHttp = new XMLHttpRequest();
   	xmlHttp.open(ajax.method, ajax.url);
 
 	// Set headers
 	// Some problem with xxs
-	Array.from(ajax.headers).forEach(function (header) {
-		for(let key in header){
-			//xmlHttp.setRequestHeader(key, header[key]);
-  		}
-	});
-
+	//if (ajax.headers.length > 0) {
+	//	Array.from(ajax.headers).forEach(function (header) {
+	//		for(let key in header){
+	//			//xmlHttp.setRequestHeader(key, header[key]);
+  	//		}
+	//	});
+	//}
   	xmlHttp.timeout = ajax.timeout;
   	ajax.beforeSend(xmlHttp);
 
@@ -257,7 +259,7 @@ window.onload = function(){
   	*/
   	__().ajax({
   		url: 'https://serene-island-81305.herokuapp.com/api/200',
-  		method: 'DELETE',
+  		method: 'GET',
   		timeout: 0,
   		data: {},
   		headers: [
