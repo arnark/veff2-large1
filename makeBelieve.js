@@ -139,14 +139,6 @@ __.prototype.delete = function() {
 	})
 }
 
-
-
-
-
-
-
-
-
 /* Functionality #12 */
 __.prototype.ajax = function(ajax) {
 
@@ -190,16 +182,6 @@ __.prototype.ajax = function(ajax) {
     xmlHttp.send(ajax.data);
 
 }
-
-
-
-
-
-
-
-
-
-
 
 /* Functionality #13 */
 __.prototype.css = function(cssElement, value) {
@@ -268,12 +250,6 @@ window.onload = function(){
   	// Example of insertText function
   	__("#hello").insertText("Some texting");
 
-
-
-
-
-
-
   	// AJAX example WIP WIP WIP
   	/* Ekki viss hvernig maður getur losað sig við svigana (). 
   	   Samkvæmt verkefnalýsingu á þetta að vera _.ajax({}); 
@@ -298,14 +274,6 @@ window.onload = function(){
   			console.log(xhr);
   		}
 	});
-
-
-
-
-
-
-
-
 		
 	// Example of css insertion using .css functon.
 	__('#container-title').css('font-size','50');
