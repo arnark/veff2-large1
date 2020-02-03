@@ -111,7 +111,7 @@ __.prototype.append = function(givenElement) {
 	let isDomObject = isNode(givenElement);
 	console.log(givenElement);
 	Array.from(this.elements).forEach(function (element) {
-		if(isDomObject) {
+		if (isDomObject) {
 			element.append(givenElement);
 		} else {
 			element.innerHTML += givenElement;
@@ -124,7 +124,7 @@ __.prototype.append = function(givenElement) {
 __.prototype.prepend = function(givenElement) {
 	let isDomObject = isNode(givenElement);
 	Array.from(this.elements).forEach(function (element) {
-		if(isDomObject) {
+		if (isDomObject) {
 			element.prepend(givenElement);
 		} else {
 			element.innerHTML = givenElement + element.innerHTML;
@@ -134,24 +134,27 @@ __.prototype.prepend = function(givenElement) {
 
 /* Functionality #11 */
 __.prototype.delete = function() {
-	// if array length > 0 delete element.
-	if(this.elements.length) {
-		Array.from(this.elements).forEach(function (element) {
-			element.parentNode.removeChild(element);
-		})
-	}
-	// or do nothing.
-	else {
-		console.log("I did nothing");
-		return 0;
-	}
+	Array.from(this.elements).forEach(function (element) {
+		element.parentNode.removeChild(element);
+	})
 }
+
+
+
+
+
+
+
+
 
 /* Functionality #12 */
 __.prototype.ajax = function(ajax) {
-	// WIP
+
 	// Check if required url is provided
-	if (Object.is(ajax.url, undefined)) { return; }
+	if (Object.is(ajax.url, undefined)) { 
+		ajax.fail({ "Error": "Missing url paramter."});
+		return;
+	}
 
 	// Check if values are given, if not set default
   	Object.is(ajax.method, undefined) ? 'GET' : ajax.method;
@@ -163,17 +166,40 @@ __.prototype.ajax = function(ajax) {
   	Object.is(ajax.beforeSend, undefined) ? null : ajax.beforeSend;
 
   	var xmlHttp = new XMLHttpRequest();
+  	xmlHttp.open(ajax.method, ajax.url);
+
+	// Set headers
+	// Some problem with xxs
+	Array.from(ajax.headers).forEach(function (header) {
+		for(let key in header){
+			//xmlHttp.setRequestHeader(key, header[key]);
+  		}
+	});
+
+  	xmlHttp.timeout = ajax.timeout;
   	ajax.beforeSend(xmlHttp);
-    xmlHttp.onreadystatechange = function() {
-        if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-            ajax.success(xmlHttp.response);
-        } else if(xmlHttp.readyState == 4) {
-        	ajax.fail(xmlHttp.status);
-        }
-    }
-    xmlHttp.open(ajax.method, ajax.url); 
-    xmlHttp.send(null);
+
+  	xmlHttp.onload = function () {
+  		ajax.success(xmlHttp.response);
+  	}
+
+    xmlHttp.onerror = function () {
+    	ajax.fail({ "Error": "Failed to send request."});
+    };
+
+    xmlHttp.send(ajax.data);
+
 }
+
+
+
+
+
+
+
+
+
+
 
 /* Functionality #13 */
 __.prototype.css = function(cssElement, value) {
@@ -243,18 +269,24 @@ window.onload = function(){
   	__("#hello").insertText("Some texting");
 
 
+
+
+
+
+
   	// AJAX example WIP WIP WIP
   	/* Ekki viss hvernig maður getur losað sig við svigana (). 
   	   Samkvæmt verkefnalýsingu á þetta að vera _.ajax({}); 
 	   ### Suggestions?
   	*/
   	__().ajax({
-  		url: 'https://serene-island-81305.herokuapp.com/api/204',
-  		method: 'GET',
+  		url: 'https://serene-island-81305.herokuapp.com/api/200',
+  		method: 'DELETE',
   		timeout: 0,
   		data: {},
   		headers: [
-  			{ 'Authorization': 'my-secret-key' }
+  			{ 'Authorization': 'my-secret-key' },
+  			{ 'some': 'asdfcret-key' }
   		],
   		success: function(resp) {
   			console.log(resp);
@@ -265,7 +297,15 @@ window.onload = function(){
   		beforeSend: function(xhr) {
   			console.log(xhr);
   		}
-		});
+	});
+
+
+
+
+
+
+
+
 		
 	// Example of css insertion using .css functon.
 	__('#container-title').css('font-size','50');
@@ -312,7 +352,7 @@ window.onload = function(){
 	});
 
 	// Example of onInput function
-	__('#passwors').onInput(function (evt) {
+	__('#passwords').onInput(function (evt) {
 		console.log(evt.target.value); // Will log every time a input is made.
 	});
 
