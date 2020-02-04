@@ -109,7 +109,6 @@ __.prototype.insertText = function(text) {
 // WIP WIP WIP, appendChild not creating new 'element' ex. Should be <p>asf</p> but is "asf"
 __.prototype.append = function(givenElement) {
 	let isDomObject = isNode(givenElement);
-	console.log(givenElement);
 	Array.from(this.elements).forEach(function (element) {
 		if (isDomObject) {
 			element.append(givenElement);
@@ -162,14 +161,15 @@ __.prototype.ajax = function(ajax) {
   	xmlHttp.open(ajax.method, ajax.url);
 
 	// Set headers
-	// Some problem with xxs
-	//if (ajax.headers.length > 0) {
-	//	Array.from(ajax.headers).forEach(function (header) {
-	//		for(let key in header){
-	//			//xmlHttp.setRequestHeader(key, header[key]);
-  	//		}
-	//	});
-	//}
+	if (ajax.headers.length > 0) {
+		Array.from(ajax.headers).forEach(function (header) {
+			for(let key in header){
+				// Some problem with XXS when served locally, no problem when hosted somewhere online
+				xmlHttp.setRequestHeader(key, header[key]);
+  			}
+		});
+	}
+	
   	xmlHttp.timeout = ajax.timeout;
   	ajax.beforeSend(xmlHttp);
 
@@ -253,7 +253,7 @@ window.onload = function(){
   	__("#hello").insertText("Some texting");
 
   	// AJAX example WIP WIP WIP
-  	/* Ekki viss hvernig maður getur losað sig við svigana (). 
+  	/* Ekki viss hvernig maður getur losað sig við svigana ().
   	   Samkvæmt verkefnalýsingu á þetta að vera _.ajax({}); 
 	   ### Suggestions?
   	*/
@@ -293,8 +293,12 @@ window.onload = function(){
 				)
 			);
 			
-	var bera = document.createElement("p").appendChild(document.createTextNode("YES"));
-	__('.the-appender').append(bera);
+	__('.the-appender').append("IT'S BRITNEY BITCH");
+	var bera = document.createElement("p").appendChild(document.createTextNode("YES SIR"));
+	__('#the-prepender').prepend(document.createElement("p").appendChild(document.createTextNode("YES SIR")));
+	__('#the-prepender').prepend(document.createElement("p").appendChild(document.createTextNode("YES SIR")));
+	__('#the-prepender').prepend(document.createElement("p").appendChild(document.createTextNode("YES SIR")));
+	__('#the-prepender').prepend(document.createElement("p").appendChild(document.createTextNode("YES SIR")));
 
 	var para = document.createElement("p");
 	var node = document.createTextNode("this is new");
