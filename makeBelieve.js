@@ -217,11 +217,11 @@ __.prototype.onInput = function(callbackFunction) {
 /* Functionality #1 */
 let _old = __;
 __ = function(...args) { return new _old(...args) };
-
+__.ajax = function(a){return __().ajax(a);}
 
 // Documentation / Examples
 
-/*
+
 
 // Wait for DOM to load
 window.onload = function(){
@@ -247,7 +247,7 @@ window.onload = function(){
   	__("#hello").insertText("Some text");
 
   	// Example of AJAX function
-  	__().ajax({
+  	__.ajax({
   		url: 'https://serene-island-81305.herokuapp.com/api/200',
   		method: 'GET',
   		timeout: 0,
@@ -318,4 +318,4 @@ window.onload = function(){
 
 }
 
-*/
+
