@@ -301,8 +301,7 @@ window.onload = function(){
 	__('#the-prepender').prepend(document.createElement("p").appendChild(document.createTextNode("YES SIR")));
 
 	var para = document.createElement("p");
-	var node = document.createTextNode("this is new");
-	para.appendChild(node);
+	para.appendChild(document.createTextNode("this is new1"));
 	__('.the-appender').append(para);
 
 	// Example of prepend function
