@@ -222,7 +222,7 @@ __.ajax = function(a){return __().ajax(a);}
 // Documentation / Examples
 
 
-
+/*
 // Wait for DOM to load
 window.onload = function(){
 
@@ -318,4 +318,4 @@ window.onload = function(){
 
 }
 
-
+*/
