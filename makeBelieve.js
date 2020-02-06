@@ -1,4 +1,5 @@
 /* Helpers */
+
 /* Get css selector stripped off first char (#, .), or no change (body, html etc.) */
 function getClassNameStripped(cssSelector) {
   if(typeof cssSelector === 'string') {
@@ -57,6 +58,7 @@ function isNode(o){
   );
 }
 
+
 /* Main functions */
 
 /* Functionality #2 */
@@ -104,9 +106,6 @@ __.prototype.insertText = function(text) {
 }
 
 /* Functionality #9 */
-// I was pointed to this https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML for help.
-// givenElement is a [object Text]. need to look into this.
-// WIP WIP WIP, appendChild not creating new 'element' ex. Should be <p>asf</p> but is "asf"
 __.prototype.append = function(givenElement) {
 	let isDomObject = isNode(givenElement);
 	Array.from(this.elements).forEach(function (element) {
@@ -119,7 +118,6 @@ __.prototype.append = function(givenElement) {
 }
 
 /* Functionality #10 */
-// WIP WIP WIP, appendChild not creating new 'element' ex. Should be <p>asf</p> but is "asf"
 __.prototype.prepend = function(givenElement) {
 	let isDomObject = isNode(givenElement);
 	Array.from(this.elements).forEach(function (element) {
@@ -143,7 +141,7 @@ __.prototype.ajax = function(ajax) {
 
 	// Check if required url is provided
 	if (Object.is(ajax.url, undefined)) { 
-		ajax.fail({ "Error": "Missing url paramter."});
+		ajax.fail({"Error": "Missing url paramter."});
 		return;
 	}
 
@@ -178,7 +176,7 @@ __.prototype.ajax = function(ajax) {
   	}
 
     xmlHttp.onerror = function () {
-    	ajax.fail({ "Error": "Failed to send request."});
+    	ajax.fail({"Error": "Failed to send request."});
     };
 
     xmlHttp.send(ajax.data);
@@ -189,16 +187,15 @@ __.prototype.ajax = function(ajax) {
 __.prototype.css = function(cssElement, value) {
 	// Iterate through this.elements.
 	Array.from(this.elements).forEach(function (element) {
-		// Addd to style cssElement with the new value. 
+		// Add to style cssElement with the new value. 
 		element.style[cssElement] = value;
 	});
 }
 
 /* Functionality #14 */
 __.prototype.toogleClass = function(someClass) { 
-	// classList.toggle is allowed.
 	Array.from(this.elements).forEach(function (element) {
-		// using classList we toggle the given class.
+		// Using classList we toggle the given class.
 		element.classList.toggle(someClass);
 	});
 }
@@ -222,6 +219,10 @@ let _old = __;
 __ = function(...args) { return new _old(...args) };
 
 
+// Documentation / Examples
+
+/*
+
 // Wait for DOM to load
 window.onload = function(){
 
@@ -230,19 +231,12 @@ window.onload = function(){
   	
   	// Example of the parent function
   	console.log(__("p").parent(".selected"));
-  	console.log(__("p").parent("#container"));
-  	console.log(__("p").parent("form"));
-  	console.log(__("p").parent());
 	
   	// Example of the grandParent function
   	console.log(__("#password").grandParent());
-  	console.log(__("#password").grandParent("#grandfather"));
-  	console.log(__("#password").grandParent("#unknownId"));
-	
+
   	// Example of the ancestor function
   	console.log(__("#password").ancestor(".ancestor"));
-  	console.log(__("#password").ancestor(".root"));
-  	console.log(__("#password").ancestor(".ancestor-sib"));
 
   	// Example of the onclick function 
   	__("#password").onClick(function (evt) {
@@ -250,13 +244,9 @@ window.onload = function(){
   	});
 
   	// Example of insertText function
-  	__("#hello").insertText("Some texting");
+  	__("#hello").insertText("Some text");
 
-  	// AJAX example WIP WIP WIP
-  	/* Ekki viss hvernig maður getur losað sig við svigana ().
-  	   Samkvæmt verkefnalýsingu á þetta að vera _.ajax({}); 
-	   ### Suggestions?
-  	*/
+  	// Example of AJAX function
   	__().ajax({
   		url: 'https://serene-island-81305.herokuapp.com/api/200',
   		method: 'GET',
@@ -264,7 +254,6 @@ window.onload = function(){
   		data: {},
   		headers: [
   			{ 'Authorization': 'my-secret-key' },
-  			{ 'some': 'asdfcret-key' }
   		],
   		success: function(resp) {
   			console.log(resp);
@@ -276,62 +265,44 @@ window.onload = function(){
   			console.log(xhr);
   		}
 	});
-		
+
 	// Example of css insertion using .css functon.
-	__('#container-title').css('font-size','50');
+	__('h2').css('font-size','100');
 
 	// Example of toggleClass function
 	__('p').toogleClass('newClass');
 
-	// Example of append function
-	// Still some bugs with DOM object insert
+	// Example of the append function
 	__('.the-appender').append('<p>lolololo</p>');
 	__('.the-appender').append(
-			document.createElement('p')
-				.appendChild(
-					document.createTextNode('mmmkayyy i am a dom object appended')
-				)
-			);
-			
-	__('.the-appender').append("IT'S BRITNEY BITCH");
-	var bera = document.createElement("p").appendChild(document.createTextNode("YES SIR"));
-	__('#the-prepender').prepend(document.createElement("p").appendChild(document.createTextNode("YES SIR")));
-	__('#the-prepender').prepend(document.createElement("p").appendChild(document.createTextNode("YES SIR")));
-	__('#the-prepender').prepend(document.createElement("p").appendChild(document.createTextNode("YES SIR")));
-	__('#the-prepender').prepend(document.createElement("p").appendChild(document.createTextNode("YES SIR")));
+		document.createElement('p')
+			.appendChild(
+				document.createTextNode('Dom object appended')
+			)
+	);
 
-	var para = document.createElement("p");
-	var node = document.createTextNode("this is new");
-	para.appendChild(node);
-	__('.the-appender').append(para);
+	// Example of the append function
+	__('#the-prepender').prepend(document.createElement("p").appendChild(document.createTextNode("YES SIR")));
+	__('.the-appender').append(
+		document.createElement('p')
+			.appendChild(
+				document.createTextNode('Dom object prepended')
+			)
+	);
 
-	// Example of prepend function
-	// Still some bugs with DOM object insert
-	__('.the-prepender').prepend('<p>lolololo</p>');
-	__('.the-prepender').prepend(
-			document.createElement('p')
-				.appendChild(
-					document.createTextNode('mmmkayyy i am a dom object prepended')
-				)
-			);
-
+	// Example of the delete function
 	__("#container h2").delete();
 	
 	// Example of onSubmit function
 	__('#my-form-submit').onSubmit(function (evt) {
-		evt.preventDefault(); //prevent the defult submit of the form (dont know if we need this).
-		console.log("I'm doing somthing");
-		console.log(evt.target.usernames.value);
-		console.log(evt.target.passwords.value);
+		alert("Submitted")
 	});
 
 	// Example of onInput function
 	__('#passwords').onInput(function (evt) {
-		console.log(evt.target.value); // Will log every time a input is made.
+		console.log(evt.target.value);
 	});
 
-	// Chainable
-	__('input').parent('form').onInput(function(evt) {
-		console.log("Somthing is happending");
-	});
 }
+
+*/

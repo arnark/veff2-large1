@@ -1,0 +1,78 @@
+<html>
+
+	<head>
+		<script src="makeBelieve.js"></script>
+		<style>
+			.newClass {
+				color: red;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="the-appender">
+			<h2>I am the appender</h2>
+		</div>
+
+		<div id="the-prepender">
+			<h2>I am the prepender</h2>
+		</div>
+
+
+		<div id="container">
+
+
+			<div class="root">
+				<div class="ancestor-sib"></div>
+				<div class="ancestor">
+					<div id="some-div">
+						<div id="grandfather">
+							<form>
+								<input type="text" id="username" name="username" />
+								<input type="password" id="password" name="password" />
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<h2 id="container-title">Container title</h2>
+
+			<p>This is a container</p>
+
+			<div class="element1">
+				<p class="newClass">Element1</p>
+				<div class="element2">
+					<p>Element2</p>
+				</div>
+
+
+				<div><p>Hello</p></div>
+				<div class="selected"><p id="hello">Hello Again</p></div>
+				<div class="selected"><p>Hello Agains</p></div>
+
+			</div>
+
+			<div class="element2">
+				<p>Element2</p>
+			</div>
+
+			<form>
+				<p>a form is my parent</p>
+				inpurt
+			</form>
+
+			<h3> Im the onSubmit and onInput</h3>
+			<form id="my-form-submit">
+				Enter name: <input type="text" id="usernames" name="usernames">
+				Enter password <input type="password" id="passwords" name="passwords">
+				<input type="submit">
+			</form>
+
+		</div>
+
+	</body>
+
+</html>
